@@ -3,142 +3,199 @@ import { createRoot } from 'react-dom/client';
 import './styles.css';
 
 const products = [
-  ['Operating Account', 'Multi-entity balances, approvals, and same-day money movement from one command center.'],
-  ['Adaptive Cards', 'Issue virtual cards for teams, vendors, and AI agents with live policy guardrails.'],
-  ['Global Payouts', 'Route wires, ACH, SEPA, and stablecoin rails from a single treasury workflow.'],
-  ['Treasury Console', 'Model idle cash, ladders, and liquidity windows before money leaves the account.'],
+  ['Business Checking', 'Global operating accounts, free ACH and wire workflows, checks, and approval controls from one Meow dashboard.'],
+  ['Corporate Cards', 'Unlimited virtual and physical cards with granular limits for teams, vendors, and AI infrastructure spend.'],
+  ['International Payouts', 'Send money across 50+ currencies with routing intelligence, low-friction approvals, and clean reconciliation.'],
+  ['Crypto Rails', 'Move USDC, USDT, BTC, SOL, and ETH alongside traditional business banking workflows.'],
+  ['Global Treasury', 'Model idle cash, ladders, commercial paper, T-Bills, gilts, bunds, and FX in one place.'],
+  ['Backoffice', 'Bookkeeping, taxes, 409A valuation workflows, bill payments, and concierge startup finance support.'],
 ];
 
-const rails = ['ACH', 'Wire', 'SEPA', 'Cards', 'Invoices', 'USDC', 'FX', 'Book transfers'];
+const regions = ['North America', 'Latin America', 'Europe', 'MENA', 'Asia Pacific', 'South Asia', 'Africa', 'Offshore'];
+const rails = ['Account onboarding', 'ACH', 'Wire transfer', 'USDC', 'International wire', 'Card payments', 'Book transfer', 'Invoices'];
+
+function ProductCard({ title, body, index }) {
+  return (
+    <article className="productCard">
+      <span className="productIndex">0{index + 1}</span>
+      <h3>{title}</h3>
+      <p>{body}</p>
+    </article>
+  );
+}
 
 function App() {
   return (
     <main>
       <nav className="nav">
-        <a className="brand" href="#top" aria-label="Aurora Ledger home">
-          <span className="brandMark">A</span>
-          <span>Aurora Ledger</span>
+        <a className="brand" href="#top" aria-label="Meow home">
+          <span className="brandMark">m</span>
+          <span>Meow</span>
         </a>
-        <div className="navLinks" aria-label="Primary navigation">
-          <a href="#platform">Platform</a>
-          <a href="#agents">Agents</a>
-          <a href="#security">Security</a>
+        <div className="navLinks">
+          <a href="#platform">Products</a>
+          <a href="#agents">AI Agents</a>
+          <a href="#regions">Regions</a>
           <a href="#faq">FAQ</a>
         </div>
-        <a className="navCta" href="mailto:hello@example.com">Request access</a>
+        <div className="navActions">
+          <a href="https://app.meow.com/signin">Sign in</a>
+          <a className="navCta" href="https://app.meow.com/signup">Get started</a>
+        </div>
       </nav>
 
       <section id="top" className="hero section">
-        <div className="orb orbOne" />
-        <div className="orb orbTwo" />
+        <div className="grain" />
         <div className="heroCopy">
-          <p className="eyebrow">Agent-native finance for global operators</p>
-          <h1>Business banking that moves at the speed of your company.</h1>
+          <p className="eyebrow">New · Agentic business formation and onboarding</p>
+          <h1>Modern banking for AI agents and global teams.</h1>
           <p className="lede">
-            Aurora Ledger unifies accounts, cards, payments, treasury workflows, and AI-agent approvals in a single cinematic finance OS for founders and lean teams.
+            One calm, powerful platform for business checking, corporate cards, global payments, crypto rails, treasury workflows, and backoffice operations.
           </p>
           <div className="heroActions">
-            <a className="button primary" href="mailto:hello@example.com">Join the private beta</a>
-            <a className="button ghost" href="#platform">Explore platform</a>
+            <a className="button primary" href="https://app.meow.com/signup">Get started</a>
+            <a className="button secondary" href="#agents">Open with an AI agent</a>
           </div>
-          <div className="proofStrip" aria-label="Company metrics">
-            <div><strong>3.8s</strong><span>median approval path</span></div>
-            <div><strong>52</strong><span>supported payout regions</span></div>
-            <div><strong>24/7</strong><span>agent policy monitoring</span></div>
-          </div>
-        </div>
-        <div className="heroPanel" aria-label="Finance dashboard preview">
-          <div className="panelTop">
-            <span>Liquidity cockpit</span>
-            <span className="live">Live</span>
-          </div>
-          <div className="balanceCard">
-            <span>Total operating balance</span>
-            <strong>$8,420,914</strong>
-            <small>Projected 30-day runway: 28.4 months</small>
-          </div>
-          <div className="flowGrid">
-            <div className="flowCard accent"><span>Agent request</span><strong>$42,000</strong><small>GPU credits · awaiting policy match</small></div>
-            <div className="flowCard"><span>Card rewards</span><strong>2.5%</strong><small>AI infrastructure category</small></div>
-            <div className="flowCard"><span>FX route</span><strong>0.42%</strong><small>Projected savings vs bank wire</small></div>
-            <div className="flowCard"><span>Approval chain</span><strong>2/3</strong><small>Founder + finance lead complete</small></div>
-          </div>
-          <div className="commandLine">aurora approve vendor/gpu-labs --cap 50k --agent nova</div>
-        </div>
-      </section>
-
-      <section id="platform" className="section productSection">
-        <div className="sectionIntro">
-          <p className="eyebrow">One finance surface</p>
-          <h2>Everything your team needs after the seed round.</h2>
-          <p>Designed for companies that want bank-grade controls without bank-grade sediment. You know, the fun mud of legacy finance.</p>
-        </div>
-        <div className="productGrid">
-          {products.map(([title, text]) => (
-            <article className="productCard" key={title}>
-              <span className="cardGlyph">✦</span>
-              <h3>{title}</h3>
-              <p>{text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section id="agents" className="section agentsSection">
-        <div className="agentsPanel">
-          <p className="eyebrow">Built for AI operators</p>
-          <h2>Let agents prepare the work. Keep humans in control.</h2>
-          <p>
-            Assign bounded permissions to software agents so they can draft payments, reconcile invoices, assemble KYC packets, and recommend treasury moves — while approvals remain explicit, auditable, and reversible.
+          <p className="disclaimer">
+            Meow Technologies is a financial technology company, not a bank or FDIC-insured depository institution. Banking services are provided by partner banks; terms apply.
           </p>
-          <div className="railList">
+        </div>
+
+        <div className="dashboardShell" aria-label="Meow product dashboard concept preview">
+          <div className="dashHeader">
+            <div>
+              <span className="dashKicker">Meow command center</span>
+              <strong>Operating balance</strong>
+            </div>
+            <span className="statusPill">Partner bank synced</span>
+          </div>
+          <div className="balanceRow">
+            <span>$12,486,240</span>
+            <small>+3.92% projected annualized yield view</small>
+          </div>
+          <div className="visualLedger">
+            <div className="ledgerLine long" />
+            <div className="ledgerLine mid" />
+            <div className="ledgerLine short" />
+            <div className="floatCard cardOne"><b>2.5%</b><span>AI spend rewards</span></div>
+            <div className="floatCard cardTwo"><b>50+</b><span>Currencies</span></div>
+            <div className="floatCard cardThree"><b>0</b><span>Wire / ACH fees</span></div>
+          </div>
+          <div className="agentCommand">
+            <span>claude</span>
+            <code>Start Meow onboarding for a Delaware C-Corp with three approvers.</code>
+          </div>
+        </div>
+      </section>
+
+      <section id="platform" className="section splitIntro">
+        <div>
+          <p className="eyebrow">One cohesive platform</p>
+          <h2>All the financial rails a fast company needs.</h2>
+        </div>
+        <p>
+          Meow brings checking, cards, global payouts, invoicing, treasury, crypto, and startup backoffice into one interface — rebuilt here with a sharper editorial layout, tactile glass surfaces, and fewer generic SaaS tropes. Mercifully, no random purple blobs wearing a Patagonia vest.
+        </p>
+      </section>
+
+      <section className="productGrid sectionTight">
+        {products.map(([title, body], index) => <ProductCard key={title} title={title} body={body} index={index} />)}
+      </section>
+
+      <section id="agents" className="section agentSection">
+        <div className="agentStory">
+          <p className="eyebrow">Banking with AI agents</p>
+          <h2>Your agent handles the paperwork. You keep the keys.</h2>
+          <p>
+            Start onboarding from Claude, ChatGPT, or your own tooling. Agents can assemble entity details, prepare account tasks, and draft payment workflows, while humans retain final approval for sensitive financial actions.
+          </p>
+          <div className="railCloud">
             {rails.map((rail) => <span key={rail}>{rail}</span>)}
           </div>
         </div>
-        <div className="terminal" aria-label="Agent terminal example">
-          <div className="terminalHeader"><span /> <span /> <span /></div>
-          <pre>{`$ aurora agent onboard\n\n✓ entity profile assembled\n✓ spend policy synced\n✓ vendor ledger checked\n\nNext: founder approval required\nNo funds move without approval.`}</pre>
+        <div className="agentPanel">
+          <div className="terminalHeader"><i /><i /><i /></div>
+          <pre>{`meow mcp connect\n\n✓ identity packet prepared\n✓ business entities mapped\n✓ spend controls drafted\n✓ crypto rails policy checked\n\nAwaiting human approval.`}</pre>
         </div>
       </section>
 
-      <section id="security" className="section securitySection">
-        <div>
-          <p className="eyebrow">Controls by default</p>
-          <h2>Finance automation with adult supervision.</h2>
+      <section className="section numbersBand">
+        <div><strong>$ Billions</strong><span>assets on platform</span></div>
+        <div><strong>$25M+</strong><span>expected rewards paid in 2025</span></div>
+        <div><strong>Thousands</strong><span>businesses with funded accounts</span></div>
+      </section>
+
+      <section className="section checkingSection">
+        <div className="checkingCopy">
+          <p className="eyebrow">Business checking</p>
+          <h2>A more controlled way to move money.</h2>
+          <p>
+            Schedule recurring wires, pay by CSV, create invoice workflows, assign approvers, and consolidate entities without burying the team in bank portals from the Bronze Age.
+          </p>
         </div>
-        <div className="securityGrid">
-          <div><strong>Policy simulation</strong><span>Preview every transfer against live approvals, caps, vendors, and entity rules.</span></div>
-          <div><strong>Human finality</strong><span>AI can prepare and recommend. Humans approve movement of money.</span></div>
-          <div><strong>Audit trails</strong><span>Every agent action is signed, timestamped, and attached to the underlying transaction.</span></div>
+        <div className="checkingCards">
+          <article><h3>Say goodbye to wire fees</h3><p>Domestic and international ACH / wire flows with transparent controls.</p></article>
+          <article><h3>Effortless spend management</h3><p>Initiators, approvers, card limits, vendor rules, and role-aware transfer limits.</p></article>
+          <article><h3>Reclaim your time</h3><p>Scheduled transfers, recurring invoices, entity switching, and automated reconciliation views.</p></article>
         </div>
       </section>
 
-      <section className="section testimonial">
+      <section id="regions" className="section regionsSection">
+        <p className="eyebrow">Global reach</p>
+        <h2>Built for companies incorporated everywhere and operating anywhere.</h2>
+        <div className="regionGrid">
+          {regions.map((region) => <span key={region}>{region}</span>)}
+        </div>
+      </section>
+
+      <section className="section quoteSection">
         <blockquote>
-          “Aurora Ledger feels like the missing command center between our founders, finance lead, and AI operators.”
+          “Meow gives finance teams the modern operating layer they expected banks to build years ago.”
         </blockquote>
-        <p>— Maya Chen, COO at Halcyon Robotics</p>
+        <p>Conceptual redesign statement based on public product positioning.</p>
       </section>
 
       <section id="faq" className="section faqSection">
-        <h2>Questions founders ask first</h2>
-        <details open>
-          <summary>Is Aurora Ledger a real financial product?</summary>
-          <p>No. This is an original concept landing page created as a design and frontend implementation demo.</p>
-        </details>
-        <details>
-          <summary>Can agents move money autonomously?</summary>
-          <p>The concept assumes agent preparation only. Money movement requires explicit human approval.</p>
-        </details>
-        <details>
-          <summary>What inspired the direction?</summary>
-          <p>The category: modern business banking, cards, payments, treasury, and agent-assisted workflows. Copy, visuals, layout, and brand are original.</p>
-        </details>
+        <div className="faqIntro">
+          <p className="eyebrow">FAQ</p>
+          <h2>Plain answers, fewer banking incantations.</h2>
+        </div>
+        <div className="faqList">
+          <details open>
+            <summary>What is Meow?</summary>
+            <p>Meow is positioned as a fintech platform for business banking, cards, treasury, global payouts, crypto, and backoffice services.</p>
+          </details>
+          <details>
+            <summary>How does Meow work with AI agents?</summary>
+            <p>Public materials describe agent-assisted onboarding and workflows through tools like Claude, ChatGPT, and MCP-compatible systems.</p>
+          </details>
+          <details>
+            <summary>Who is Meow for?</summary>
+            <p>Businesses, startups, VC firms, funds, real-estate operators, crypto-native teams, and global entities.</p>
+          </details>
+          <details>
+            <summary>What guardrails exist for agent-initiated transactions?</summary>
+            <p>This redesign frames agent activity as preparation and routing. Sensitive money movement should require explicit human approval.</p>
+          </details>
+        </div>
+      </section>
+
+      <section className="section finalCta">
+        <p className="eyebrow">Apply today</p>
+        <h2>Open a cleaner command center for company money.</h2>
+        <a className="button primary" href="https://app.meow.com/signup">Get started</a>
       </section>
 
       <footer className="footer">
-        <span>Aurora Ledger</span>
-        <p>Original fintech landing page concept. Not affiliated with Meow or any bank.</p>
+        <div className="footerBrand"><span className="brandMark">m</span><strong>Meow</strong></div>
+        <div className="footerColumns">
+          <div><b>Products</b><a>Business Checking</a><a>Corporate Cards</a><a>International Payouts</a><a>Global Treasury</a></div>
+          <div><b>Financing</b><a>Founder Mortgages</a><a>SBA Loans</a><a>Business Loans</a></div>
+          <div><b>Resources</b><a>About</a><a>Help Center</a><a>Customer Stories</a><a>Legal</a></div>
+        </div>
+        <p className="legal">
+          Concept redesign for Meow using publicly visible product structure and information. No original Meow images, logos, brand files, code, or copyrighted art assets are included. Financial products, yields, rewards, and partner-bank disclosures require legal/compliance review before any real use.
+        </p>
       </footer>
     </main>
   );

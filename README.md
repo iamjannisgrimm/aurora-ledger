@@ -1,8 +1,8 @@
-# Aurora Ledger
+# Meow redesign concept
 
-Original high-end fintech landing page concept inspired by the **category** of agent-ready business finance: operating accounts, cards, payments, treasury, and AI-assisted workflows.
+Original high-end fintech landing page redesign concept for **Meow**, based on publicly visible product positioning and page structure: business checking, corporate cards, global payouts, crypto rails, treasury, backoffice, AI-agent onboarding, regions, FAQ, CTA, and compliance framing.
 
-This is not a clone of Meow and does not use Meow copy, images, brand assets, logos, or code.
+This is not a site clone and does not use Meow's original images, logos, brand files, source code, or copyrighted art assets. Visuals are CSS-generated and copy has been rewritten/summarized for a premium fintech concept direction.
 
 ## Run locally
 
