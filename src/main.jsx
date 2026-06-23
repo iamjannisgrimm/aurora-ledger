@@ -11,6 +11,12 @@ const products = [
   ['Backoffice', 'Bookkeeping, taxes, 409A valuation workflows, bill payments, and concierge startup finance support.'],
 ];
 
+const stories = [
+  ['SelfMade', 'Banking & Backoffice Bundle', '/meow-assets/selfmade-story.svg'],
+  ['Daniel Singer', 'Bookkeeping & Taxes', '/meow-assets/daniel-singer-story.svg'],
+  ['Optimism', 'Banking & Payments', '/meow-assets/optimism-story.svg'],
+];
+
 const regions = ['North America', 'Latin America', 'Europe', 'MENA', 'Asia Pacific', 'South Asia', 'Africa', 'Offshore'];
 const rails = ['Account onboarding', 'ACH', 'Wire transfer', 'USDC', 'International wire', 'Card payments', 'Book transfer', 'Invoices'];
 
@@ -130,6 +136,25 @@ function App() {
         <div><strong>Thousands</strong><span>businesses with funded accounts</span></div>
       </section>
 
+      <section className="section storiesSection">
+        <div className="storiesIntro">
+          <p className="eyebrow">Customer stories</p>
+          <h2>Real operators, fewer finance tabs.</h2>
+          <p>Selected public Meow story artwork brought over from the original site to keep the redesign connected to the source brand.</p>
+        </div>
+        <div className="storyGrid">
+          {stories.map(([name, label, src]) => (
+            <article className="storyCard" key={name}>
+              <img src={src} alt={`${name} customer story artwork`} loading="lazy" />
+              <div>
+                <strong>{name}</strong>
+                <span>{label}</span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="section checkingSection">
         <div className="checkingCopy">
           <p className="eyebrow">Business checking</p>
@@ -154,10 +179,13 @@ function App() {
       </section>
 
       <section className="section quoteSection">
-        <blockquote>
-          “Everything a startup needs to move, manage, and protect company money — without stitching together five bank portals.”
-        </blockquote>
-        <p>Conceptual redesign statement based on public product positioning.</p>
+        <img src="/meow-assets/eli-wachs.png" alt="Eli Wachs testimonial portrait from Meow" loading="lazy" />
+        <div>
+          <blockquote>
+            “Everything a startup needs to move, manage, and protect company money — without stitching together five bank portals.”
+          </blockquote>
+          <p>Inspired by Meow’s public customer proof and product positioning.</p>
+        </div>
       </section>
 
       <section id="faq" className="section faqSection">
