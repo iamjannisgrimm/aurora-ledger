@@ -4,6 +4,14 @@ These assets were extracted from the public HTML/assets referenced by `https://w
 
 ## Copied assets
 
+- `hero-globe.svg`
+  - Source: inline SVG extracted from the public `https://www.meow.com` homepage HTML.
+  - Original context: hero/global finance illustration.
+
+- `company-logo-1.svg` through `company-logo-10.svg`
+  - Source: inline SVGs extracted from the public `https://www.meow.com` homepage HTML.
+  - Original context: credibility/customer/company logo stack.
+
 - `selfmade-story.svg`
   - Source: `https://cdn.sanity.io/images/644s806z/updated-prod/c3016065d1b7d673b23216922ee1fd48c5c21f79-1920x1080.svg`
   - Original context: customer story artwork for SelfMade.
