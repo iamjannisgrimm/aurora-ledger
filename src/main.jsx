@@ -42,7 +42,7 @@ function RegionGlobe() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return undefined;
-    let phi = -0.9;
+    const fixedPhi = -1.08;
     let width = 0;
     let globe;
 
@@ -57,8 +57,8 @@ function RegionGlobe() {
         devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
         width: width * 2,
         height: width * 2,
-        phi,
-        theta: 0.18,
+        phi: fixedPhi,
+        theta: 0.08,
         dark: 1,
         diffuse: 0.42,
         mapSamples: 18000,
@@ -66,16 +66,16 @@ function RegionGlobe() {
         baseColor: [0.18, 0.2, 0.29],
         markerColor: [1, 0.4, 0.19],
         glowColor: [0.38, 0.44, 0.62],
-        scale: 1.08,
-        offset: [0, 0],
+        scale: 1.32,
+        offset: [0, 0.18],
         opacity: 1,
         markers: globeCities.map((city, index) => ({
           location: [city.lat, city.lng],
           size: index < 3 ? 0.075 : 0.055,
         })),
         onRender: (state) => {
-          state.phi = phi;
-          phi += 0.0024;
+          state.phi = fixedPhi;
+          state.theta = 0.08;
           state.width = width * 2;
           state.height = width * 2;
         },

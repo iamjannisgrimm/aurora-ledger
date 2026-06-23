@@ -124,12 +124,12 @@ h3 { font-size: 1.12rem; line-height: 1.12; letter-spacing: -0.025em; font-weigh
 
 .dashboardShell {
   position: relative;
-  min-height: clamp(32rem, 48vw, 43rem);
+  min-height: clamp(28rem, 43vw, 38rem);
   border: 1px solid rgba(255,255,255,0.09);
   border-radius: 2.1rem;
   background:
     radial-gradient(circle at 50% 38%, rgba(255,102,49,0.18), transparent 19rem),
-    radial-gradient(circle at 50% 50%, rgba(102,126,190,0.28), transparent 22rem),
+    radial-gradient(circle at 50% 98%, rgba(102,126,190,0.34), transparent 24rem),
     linear-gradient(180deg, #1a1d29 0%, #11141d 58%, #0b0d13 100%);
   box-shadow: 0 32px 90px rgba(23,25,35,0.26), inset 0 1px 0 rgba(255,255,255,0.08);
   overflow: hidden;
@@ -144,12 +144,15 @@ h3 { font-size: 1.12rem; line-height: 1.12; letter-spacing: -0.025em; font-weigh
   mask-image: radial-gradient(circle at 50% 46%, black, transparent 74%);
 }
 .regionGlobe {
-  position: relative;
-  width: min(112%, 38rem);
+  position: absolute;
+  left: 50%;
+  bottom: -56%;
+  width: min(150%, 54rem);
   aspect-ratio: 1;
-  margin: -0.4rem auto 0;
+  margin: 0;
+  transform: translateX(-50%);
   z-index: 1;
-  filter: drop-shadow(0 38px 70px rgba(0, 0, 0, 0.36));
+  filter: drop-shadow(0 -24px 70px rgba(255,102,49,0.08)) drop-shadow(0 38px 70px rgba(0, 0, 0, 0.42));
 }
 .regionGlobe canvas {
   width: 100%;
@@ -159,13 +162,13 @@ h3 { font-size: 1.12rem; line-height: 1.12; letter-spacing: -0.025em; font-weigh
 }
 .globeOrbit {
   position: absolute;
-  inset: 18%;
+  inset: 17%;
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 50%;
   pointer-events: none;
   transform: rotate(-18deg) scaleX(1.18);
 }
-.orbitTwo { inset: 27%; transform: rotate(24deg) scaleX(1.38); opacity: 0.5; }
+.orbitTwo { inset: 28%; transform: rotate(24deg) scaleX(1.38); opacity: 0.5; }
 .globeGlow {
   position: absolute;
   inset: 7%;
@@ -190,9 +193,9 @@ h3 { font-size: 1.12rem; line-height: 1.12; letter-spacing: -0.025em; font-weigh
 .globeStat strong { font-size: 1.28rem; letter-spacing: -0.04em; }
 .globeStat span { color: rgba(255,255,255,0.62); font-size: 0.82rem; }
 .statOne { top: 12%; right: 8%; }
-.statTwo { top: 45%; left: 6%; }
-.statThree { bottom: 20%; right: 7%; }
-.dashboardShell > :not(.regionGlobe) { position: relative; z-index: 2; }
+.statTwo { top: 32%; left: 6%; }
+.statThree { bottom: 16%; right: 7%; }
+.dashboardShell > :not(.regionGlobe) { position: absolute; z-index: 2; }
 .dashHeader, .balanceRow, .agentCommand, .productCard, .agentStory, .agentPanel, .checkingCards article, details, .finalCta, .quoteSection, .numbersBand div {
   border: 1px solid var(--line);
   background: var(--card);
@@ -221,7 +224,7 @@ h3 { font-size: 1.12rem; line-height: 1.12; letter-spacing: -0.025em; font-weigh
 .cardOne { top: 13%; left: 9%; }
 .cardTwo { top: 42%; right: 8%; }
 .cardThree { bottom: 11%; left: 22%; }
-.heroCommand { position: absolute; left: 1.1rem; right: 1.1rem; bottom: 1.1rem; border-radius: 1.1rem; padding: 1rem; display: grid; gap: 0.35rem; background: rgba(9,11,16,0.78); color: #fff4e9; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(18px); }
+.heroCommand { position: absolute; left: 1.1rem; right: 1.1rem; bottom: 1.1rem; z-index: 3; border-radius: 1.1rem; padding: 1rem; display: grid; gap: 0.35rem; background: rgba(9,11,16,0.78); color: #fff4e9; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(18px); }
 .heroCommand span { color: var(--amber); font-weight: 800; }
 .heroCommand code { color: rgba(255,244,233,0.82); font-family: "SFMono-Regular", Consolas, monospace; white-space: normal; }
 
@@ -335,5 +338,9 @@ details p { color: var(--ink-soft); line-height: 1.62; margin: 0.8rem 0 0; }
   .balanceRow span { font-size: 2.35rem; }
   .visualLedger { min-height: 18rem; }
   .floatCard { position: relative; top: auto; right: auto; bottom: auto; left: auto; margin: 0.7rem; display: inline-grid; }
-  .globeStat { position: relative; inset: auto; margin: 0.6rem 1rem; }
+  .regionGlobe { width: 160%; bottom: -46%; }
+  .globeStat { transform: scale(0.88); transform-origin: center; }
+  .statOne { top: 9%; right: 5%; }
+  .statTwo { top: 28%; left: 3%; }
+  .statThree { display: none; }
 }
