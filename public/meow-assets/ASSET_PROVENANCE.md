@@ -4,9 +4,10 @@ These assets were extracted from the public HTML/assets referenced by `https://w
 
 ## Copied assets
 
-- `hero-globe.svg`
-  - Source: inline SVG extracted from the public `https://www.meow.com` homepage HTML.
-  - Original context: hero/global finance illustration.
+- Hero globe implementation
+  - Source: original `region-globe` hero component behavior identified in Meow's public homepage HTML and JS chunk (`/_next/static/chunks/6147-53bffb7ec58a17b7.js`).
+  - Original context: animated hero globe rendered from a `div.region-globe` canvas component, not a standalone image file.
+  - Local usage: reconstructed in `src/main.jsx` as `RegionGlobe` using the same visible city/arc concept.
 
 - `company-logo-1.svg` through `company-logo-10.svg`
   - Source: inline SVGs extracted from the public `https://www.meow.com` homepage HTML.
