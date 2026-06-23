@@ -29,8 +29,8 @@ function App() {
     <main>
       <nav className="nav">
         <a className="brand" href="#top" aria-label="Meow home">
-          <span className="brandMark">m</span>
-          <span>Meow</span>
+          <span className="brandMark" aria-hidden="true"><span /></span>
+          <span className="wordmark">Meow</span>
         </a>
         <div className="navLinks">
           <a href="#platform">Products</a>
@@ -50,7 +50,7 @@ function App() {
           <p className="eyebrow">New · Agentic business formation and onboarding</p>
           <h1>Modern banking for AI agents and global teams.</h1>
           <p className="lede">
-            One calm, powerful platform for business checking, corporate cards, global payments, crypto rails, treasury workflows, and backoffice operations.
+            One polished platform for business checking, corporate cards, global payments, crypto rails, treasury workflows, and backoffice operations.
           </p>
           <div className="heroActions">
             <a className="button primary" href="https://app.meow.com/signup">Get started</a>
@@ -67,7 +67,7 @@ function App() {
               <span className="dashKicker">Meow command center</span>
               <strong>Operating balance</strong>
             </div>
-            <span className="statusPill">Partner bank synced</span>
+            <span className="statusPill">Live account view</span>
           </div>
           <div className="balanceRow">
             <span>$12,486,240</span>
@@ -94,7 +94,7 @@ function App() {
           <h2>All the financial rails a fast company needs.</h2>
         </div>
         <p>
-          Meow brings checking, cards, global payouts, invoicing, treasury, crypto, and startup backoffice into one interface — rebuilt here with a sharper editorial layout, tactile glass surfaces, and fewer generic SaaS tropes. Mercifully, no random purple blobs wearing a Patagonia vest.
+            Meow brings checking, cards, global payouts, invoicing, treasury, crypto, and startup backoffice into one interface — reworked here with a softer orange palette, cleaner product hierarchy, and a more established fintech feel.
         </p>
       </section>
 
@@ -130,7 +130,7 @@ function App() {
           <p className="eyebrow">Business checking</p>
           <h2>A more controlled way to move money.</h2>
           <p>
-            Schedule recurring wires, pay by CSV, create invoice workflows, assign approvers, and consolidate entities without burying the team in bank portals from the Bronze Age.
+            Schedule recurring wires, pay by CSV, create invoice workflows, assign approvers, and consolidate entities without forcing the team through fragmented banking portals.
           </p>
         </div>
         <div className="checkingCards">
@@ -187,14 +187,14 @@ function App() {
       </section>
 
       <footer className="footer">
-        <div className="footerBrand"><span className="brandMark">m</span><strong>Meow</strong></div>
+        <div className="footerBrand"><span className="brandMark" aria-hidden="true"><span /></span><strong>Meow</strong></div>
         <div className="footerColumns">
           <div><b>Products</b><a>Business Checking</a><a>Corporate Cards</a><a>International Payouts</a><a>Global Treasury</a></div>
           <div><b>Financing</b><a>Founder Mortgages</a><a>SBA Loans</a><a>Business Loans</a></div>
           <div><b>Resources</b><a>About</a><a>Help Center</a><a>Customer Stories</a><a>Legal</a></div>
         </div>
         <p className="legal">
-          Concept redesign for Meow using publicly visible product structure and information. No original Meow images, logos, brand files, code, or copyrighted art assets are included. Financial products, yields, rewards, and partner-bank disclosures require legal/compliance review before any real use.
+          Concept redesign for Meow using publicly visible product structure and information. The mark here is a CSS-built placeholder treatment, not an imported brand asset. Financial products, yields, rewards, and partner-bank disclosures require legal/compliance review before any real use.
         </p>
       </footer>
     </main>
