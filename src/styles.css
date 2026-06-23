@@ -124,21 +124,32 @@ h3 { font-size: 1.12rem; line-height: 1.12; letter-spacing: -0.025em; font-weigh
 
 .dashboardShell {
   position: relative;
-  padding: 1rem;
-  min-height: 39rem;
-  border: 1px solid var(--line);
-  border-radius: 1.9rem;
-  background: linear-gradient(145deg, rgba(255,250,242,0.92), rgba(255,239,222,0.72));
-  box-shadow: var(--shadow);
+  min-height: clamp(32rem, 48vw, 43rem);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 2.1rem;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(255,102,49,0.18), transparent 19rem),
+    radial-gradient(circle at 50% 50%, rgba(102,126,190,0.28), transparent 22rem),
+    linear-gradient(180deg, #1a1d29 0%, #11141d 58%, #0b0d13 100%);
+  box-shadow: 0 32px 90px rgba(23,25,35,0.26), inset 0 1px 0 rgba(255,255,255,0.08);
   overflow: hidden;
+  isolation: isolate;
+}
+.dashboardShell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.026) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(circle at 50% 46%, black, transparent 74%);
 }
 .regionGlobe {
   position: relative;
-  width: min(100%, 31rem);
+  width: min(112%, 38rem);
   aspect-ratio: 1;
-  margin: -1rem auto -4.6rem;
+  margin: -0.4rem auto 0;
   z-index: 1;
-  filter: drop-shadow(0 28px 54px rgba(23, 25, 35, 0.26));
+  filter: drop-shadow(0 38px 70px rgba(0, 0, 0, 0.36));
 }
 .regionGlobe canvas {
   width: 100%;
@@ -148,29 +159,39 @@ h3 { font-size: 1.12rem; line-height: 1.12; letter-spacing: -0.025em; font-weigh
 }
 .globeOrbit {
   position: absolute;
-  inset: 16%;
-  border: 1px solid rgba(255,255,255,0.11);
+  inset: 18%;
+  border: 1px solid rgba(255,255,255,0.08);
   border-radius: 50%;
   pointer-events: none;
   transform: rotate(-18deg) scaleX(1.18);
 }
-.orbitTwo { inset: 24%; transform: rotate(24deg) scaleX(1.35); opacity: 0.62; }
-.globeLabel {
+.orbitTwo { inset: 27%; transform: rotate(24deg) scaleX(1.38); opacity: 0.5; }
+.globeGlow {
   position: absolute;
-  padding: 0.28rem 0.5rem;
-  border-radius: 0.32rem;
-  color: rgba(255,255,255,0.92);
-  background: rgba(23,25,35,0.72);
-  backdrop-filter: blur(8px);
-  font-size: 0.62rem;
-  font-weight: 660;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-  box-shadow: 0 10px 24px rgba(0,0,0,0.16);
+  inset: 7%;
+  border-radius: 999px;
+  box-shadow: inset 0 0 72px rgba(255,102,49,0.08), 0 0 90px rgba(69,93,160,0.18);
+  pointer-events: none;
 }
-.labelOne { left: 18%; top: 35%; }
-.labelTwo { right: 20%; top: 28%; }
-.labelThree { right: 14%; bottom: 34%; }
+.globeStat {
+  position: absolute;
+  z-index: 3;
+  display: grid;
+  gap: 0.1rem;
+  min-width: 8.5rem;
+  padding: 0.86rem 0.95rem;
+  border-radius: 1rem;
+  color: rgba(255,255,255,0.94);
+  background: rgba(255,255,255,0.078);
+  border: 1px solid rgba(255,255,255,0.13);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 20px 46px rgba(0,0,0,0.2);
+}
+.globeStat strong { font-size: 1.28rem; letter-spacing: -0.04em; }
+.globeStat span { color: rgba(255,255,255,0.62); font-size: 0.82rem; }
+.statOne { top: 12%; right: 8%; }
+.statTwo { top: 45%; left: 6%; }
+.statThree { bottom: 20%; right: 7%; }
 .dashboardShell > :not(.regionGlobe) { position: relative; z-index: 2; }
 .dashHeader, .balanceRow, .agentCommand, .productCard, .agentStory, .agentPanel, .checkingCards article, details, .finalCta, .quoteSection, .numbersBand div {
   border: 1px solid var(--line);
@@ -200,9 +221,9 @@ h3 { font-size: 1.12rem; line-height: 1.12; letter-spacing: -0.025em; font-weigh
 .cardOne { top: 13%; left: 9%; }
 .cardTwo { top: 42%; right: 8%; }
 .cardThree { bottom: 11%; left: 22%; }
-.agentCommand { margin-top: 0.8rem; border-radius: 1.05rem; padding: 1rem; display: grid; gap: 0.35rem; background: #271a12; color: #fff4e9; }
-.agentCommand span { color: var(--amber); font-weight: 800; }
-.agentCommand code { color: rgba(255,244,233,0.82); font-family: "SFMono-Regular", Consolas, monospace; white-space: normal; }
+.heroCommand { position: absolute; left: 1.1rem; right: 1.1rem; bottom: 1.1rem; border-radius: 1.1rem; padding: 1rem; display: grid; gap: 0.35rem; background: rgba(9,11,16,0.78); color: #fff4e9; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(18px); }
+.heroCommand span { color: var(--amber); font-weight: 800; }
+.heroCommand code { color: rgba(255,244,233,0.82); font-family: "SFMono-Regular", Consolas, monospace; white-space: normal; }
 
 .credibilityStrip {
   padding: 0 clamp(1rem, 4vw, 4.4rem) clamp(4.5rem, 7vw, 7.8rem);
@@ -314,4 +335,5 @@ details p { color: var(--ink-soft); line-height: 1.62; margin: 0.8rem 0 0; }
   .balanceRow span { font-size: 2.35rem; }
   .visualLedger { min-height: 18rem; }
   .floatCard { position: relative; top: auto; right: auto; bottom: auto; left: auto; margin: 0.7rem; display: inline-grid; }
+  .globeStat { position: relative; inset: auto; margin: 0.6rem 1rem; }
 }

@@ -58,18 +58,24 @@ function RegionGlobe() {
         width: width * 2,
         height: width * 2,
         phi,
-        theta: 0.24,
+        theta: 0.18,
         dark: 1,
-        diffuse: 0.58,
-        mapSamples: 14000,
-        mapBrightness: 3.2,
-        baseColor: [0.32, 0.34, 0.47],
+        diffuse: 0.42,
+        mapSamples: 18000,
+        mapBrightness: 4.4,
+        baseColor: [0.18, 0.2, 0.29],
         markerColor: [1, 0.4, 0.19],
-        glowColor: [0.28, 0.42, 0.67],
-        markers: globeCities.map((city) => ({ location: [city.lat, city.lng], size: 0.055 })),
+        glowColor: [0.38, 0.44, 0.62],
+        scale: 1.08,
+        offset: [0, 0],
+        opacity: 1,
+        markers: globeCities.map((city, index) => ({
+          location: [city.lat, city.lng],
+          size: index < 3 ? 0.075 : 0.055,
+        })),
         onRender: (state) => {
           state.phi = phi;
-          phi += 0.004;
+          phi += 0.0024;
           state.width = width * 2;
           state.height = width * 2;
         },
@@ -89,9 +95,7 @@ function RegionGlobe() {
       <canvas ref={canvasRef} />
       <span className="globeOrbit orbitOne" />
       <span className="globeOrbit orbitTwo" />
-      <span className="globeLabel labelOne">New York</span>
-      <span className="globeLabel labelTwo">London</span>
-      <span className="globeLabel labelThree">Dubai</span>
+      <span className="globeGlow" />
     </div>
   );
 }
@@ -144,28 +148,12 @@ function App() {
 
         <div className="dashboardShell" aria-label="Meow product dashboard concept preview">
           <RegionGlobe />
-          <div className="dashHeader">
-            <div>
-              <span className="dashKicker">Meow command center</span>
-              <strong>Operating balance</strong>
-            </div>
-            <span className="statusPill">Live account view</span>
-          </div>
-          <div className="balanceRow">
-            <span>$12,486,240</span>
-            <small>+3.92% projected annualized yield view</small>
-          </div>
-          <div className="visualLedger">
-            <div className="ledgerLine long" />
-            <div className="ledgerLine mid" />
-            <div className="ledgerLine short" />
-            <div className="floatCard cardOne"><b>2.5%</b><span>AI spend rewards</span></div>
-            <div className="floatCard cardTwo"><b>50+</b><span>Currencies</span></div>
-            <div className="floatCard cardThree"><b>0</b><span>Wire / ACH fees</span></div>
-          </div>
-          <div className="agentCommand">
-            <span>claude</span>
-            <code>Start Meow onboarding for a Delaware C-Corp with three approvers.</code>
+          <div className="globeStat statOne"><strong>50+</strong><span>currencies</span></div>
+          <div className="globeStat statTwo"><strong>2.5%</strong><span>AI spend rewards</span></div>
+          <div className="globeStat statThree"><strong>$ Billions</strong><span>assets on platform</span></div>
+          <div className="heroCommand">
+            <span>Claude agent</span>
+            <code>Prepare Meow onboarding for a Delaware C-Corp.</code>
           </div>
         </div>
       </section>
