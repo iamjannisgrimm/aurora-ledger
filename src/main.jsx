@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
-import createGlobe from 'cobe';
+import { LAND_MAP_URL } from './landmap.js';
 import './styles.css';
 
 const products = [
@@ -36,66 +36,171 @@ function MeowLogo() {
   return <span className="meowLogo" dangerouslySetInnerHTML={{ __html: meowLogoSvg }} />;
 }
 
-function RegionGlobe() {
+const DEG = Math.PI / 180;
+
+function latLngToVec(latDeg, lngDeg) {
+  const lat = latDeg * DEG;
+  const lng = lngDeg * DEG;
+  return [
+    Math.cos(lat) * Math.sin(lng),
+    Math.sin(lat),
+    Math.cos(lat) * Math.cos(lng),
+  ];
+}
+
+// Sample the 1-bit land mask (bit 0 / dark pixel = land) into a dense set of
+// unit-sphere points we can rotate and project ourselves.
+function buildLandPoints(imageData) {
+  const { data, width, height } = imageData;
+  const isLand = (lngDeg, latDeg) => {
+    const u = Math.floor(((lngDeg + 180) / 360) * width) % width;
+    const v = Math.floor(((90 - latDeg) / 180) * height);
+    const idx = (v * width + (u < 0 ? u + width : u)) * 4;
+    return data[idx] < 128;
+  };
+  const points = [];
+  for (let lat = -84; lat <= 84; lat += 1.6) {
+    // even angular density per ring keeps the dots from clumping at the poles
+    const ring = Math.max(8, Math.round(Math.cos(lat * DEG) * 220));
+    for (let i = 0; i < ring; i += 1) {
+      const lng = -180 + (360 * i) / ring;
+      if (isLand(lng, lat)) points.push(latLngToVec(lat, lng));
+    }
+  }
+  return points;
+}
+
+function HeroGlobe() {
   const canvasRef = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return undefined;
-    const fixedPhi = -1.08;
+    const ctx = canvas.getContext('2d');
+    const tilt = -0.42; // tilt the north up so the visible cap reads as the top of the globe
+    const cityVecs = globeCities.map((c) => ({ ...c, vec: latLngToVec(c.lat, c.lng) }));
+
     let width = 0;
-    let globe;
+    let height = 0;
+    let dpr = 1;
+    let rot = 1.2; // start over the Atlantic so continents are framed nicely
+    let land = [];
+    let raf = 0;
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
       width = rect.width;
-      if (globe) {
-        globe.toggle(false);
-        globe.destroy();
+      height = rect.height;
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    const project = (p, cosR, sinR, cosT, sinT) => {
+      // spin around the polar (Y) axis
+      const x = p[0] * cosR + p[2] * sinR;
+      const zr = -p[0] * sinR + p[2] * cosR;
+      const y = p[1];
+      // tilt around X so we look slightly down onto the north
+      const y2 = y * cosT - zr * sinT;
+      const z2 = y * sinT + zr * cosT;
+      return [x, y2, z2];
+    };
+
+    const draw = () => {
+      const cx = width / 2;
+      const cy = height / 2;
+      const R = (Math.min(width, height) / 2) * 0.9;
+      const cosR = Math.cos(rot);
+      const sinR = Math.sin(rot);
+      const cosT = Math.cos(tilt);
+      const sinT = Math.sin(tilt);
+
+      ctx.clearRect(0, 0, width, height);
+
+      // soft sphere body so the dotted continents sit on a solid planet
+      const body = ctx.createRadialGradient(cx - R * 0.32, cy - R * 0.42, R * 0.1, cx, cy, R);
+      body.addColorStop(0, 'rgba(58, 70, 104, 0.95)');
+      body.addColorStop(0.62, 'rgba(28, 35, 58, 0.96)');
+      body.addColorStop(1, 'rgba(12, 16, 30, 0.98)');
+      ctx.beginPath();
+      ctx.arc(cx, cy, R, 0, Math.PI * 2);
+      ctx.fillStyle = body;
+      ctx.fill();
+
+      // land dots
+      for (let i = 0; i < land.length; i += 1) {
+        const [x, y, z] = project(land[i], cosR, sinR, cosT, sinT);
+        if (z < -0.05) continue; // cull the back hemisphere
+        const sx = cx + x * R;
+        const sy = cy - y * R;
+        const depth = (z + 1) / 2;
+        const size = 0.5 + depth * 1.45;
+        const alpha = 0.18 + depth * 0.62;
+        ctx.beginPath();
+        ctx.arc(sx, sy, size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, ${Math.round(150 + depth * 60)}, ${Math.round(90 + depth * 40)}, ${alpha})`;
+        ctx.fill();
       }
-      globe = createGlobe(canvas, {
-        devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
-        width: width * 2,
-        height: width * 2,
-        phi: fixedPhi,
-        theta: 0.08,
-        dark: 1,
-        diffuse: 0.42,
-        mapSamples: 18000,
-        mapBrightness: 4.4,
-        baseColor: [0.18, 0.2, 0.29],
-        markerColor: [1, 0.4, 0.19],
-        glowColor: [0.38, 0.44, 0.62],
-        scale: 1.32,
-        offset: [0, 0.18],
-        opacity: 1,
-        markers: globeCities.map((city, index) => ({
-          location: [city.lat, city.lng],
-          size: index < 3 ? 0.075 : 0.055,
-        })),
-        onRender: (state) => {
-          state.phi = fixedPhi;
-          state.theta = 0.08;
-          state.width = width * 2;
-          state.height = width * 2;
-        },
-      });
+
+      // rim light
+      ctx.beginPath();
+      ctx.arc(cx, cy, R, 0, Math.PI * 2);
+      ctx.lineWidth = 1.4;
+      ctx.strokeStyle = 'rgba(255, 196, 150, 0.35)';
+      ctx.stroke();
+
+      // city markers + pulse glow
+      for (const city of cityVecs) {
+        const [x, y, z] = project(city.vec, cosR, sinR, cosT, sinT);
+        if (z < 0.02) continue;
+        const sx = cx + x * R;
+        const sy = cy - y * R;
+        const depth = (z + 1) / 2;
+        const glow = ctx.createRadialGradient(sx, sy, 0, sx, sy, 13);
+        glow.addColorStop(0, `rgba(255, 140, 64, ${0.55 * depth})`);
+        glow.addColorStop(1, 'rgba(255, 140, 64, 0)');
+        ctx.beginPath();
+        ctx.arc(sx, sy, 13, 0, Math.PI * 2);
+        ctx.fillStyle = glow;
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(sx, sy, 2.4, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 244, 233, ${0.7 + 0.3 * depth})`;
+        ctx.fill();
+      }
+
+      rot += 0.0016;
+      raf = requestAnimationFrame(draw);
     };
 
     resize();
     window.addEventListener('resize', resize);
+
+    const img = new Image();
+    img.onload = () => {
+      const off = document.createElement('canvas');
+      off.width = img.width;
+      off.height = img.height;
+      const octx = off.getContext('2d', { willReadFrequently: true });
+      octx.drawImage(img, 0, 0);
+      land = buildLandPoints(octx.getImageData(0, 0, img.width, img.height));
+      cancelAnimationFrame(raf);
+      draw();
+    };
+    img.src = LAND_MAP_URL;
+
     return () => {
-      if (globe) globe.destroy();
+      cancelAnimationFrame(raf);
       window.removeEventListener('resize', resize);
     };
   }, []);
 
   return (
-    <div className="regionGlobe" aria-label="Global finance globe inspired by Meow's original hero">
+    <div className="heroGlobe" aria-hidden="true">
+      <span className="heroGlobeGlow" />
       <canvas ref={canvasRef} />
-      <span className="globeOrbit orbitOne" />
-      <span className="globeOrbit orbitTwo" />
-      <span className="globeGlow" />
     </div>
   );
 }
@@ -130,8 +235,7 @@ function App() {
       </nav>
 
       <section id="top" className="hero section">
-        <div className="grain" />
-        <div className="heroCopy">
+        <div className="heroInner">
           <p className="eyebrow">New · Agentic business formation and onboarding</p>
           <h1>Banking for global startups.</h1>
           <p className="lede">
@@ -141,22 +245,19 @@ function App() {
             <a className="button primary" href="https://app.meow.com/signup">Get started</a>
             <a className="button secondary" href="#agents">Open with an AI agent</a>
           </div>
-          <p className="disclaimer">
-            Meow Technologies is a financial technology company, not a bank or FDIC-insured depository institution. Banking services are provided by partner banks; terms apply.
-          </p>
-        </div>
-
-        <div className="dashboardShell" aria-label="Meow product dashboard concept preview">
-          <RegionGlobe />
-          <div className="globeStat statOne"><strong>50+</strong><span>currencies</span></div>
-          <div className="globeStat statTwo"><strong>2.5%</strong><span>AI spend rewards</span></div>
-          <div className="globeStat statThree"><strong>$ Billions</strong><span>assets on platform</span></div>
-          <div className="heroCommand">
-            <span>Claude agent</span>
-            <code>Prepare Meow onboarding for a Delaware C-Corp.</code>
+          <div className="heroStats">
+            <div><strong>50+</strong><span>currencies</span></div>
+            <div><strong>$ Billions</strong><span>assets on platform</span></div>
+            <div><strong>2.5%</strong><span>AI spend rewards</span></div>
           </div>
         </div>
+
+        <HeroGlobe />
       </section>
+
+      <p className="disclaimer heroDisclaimer">
+        Meow Technologies is a financial technology company, not a bank or FDIC-insured depository institution. Banking services are provided by partner banks; terms apply.
+      </p>
 
       <section className="credibilityStrip" aria-label="Company credibility logos">
         <p>Used by startups, funds, crypto teams, and global operators</p>
