@@ -145,7 +145,7 @@ h3 { font-size: 1.12rem; line-height: 1.12; letter-spacing: -0.025em; font-weigh
   bottom: 0;
   width: min(52rem, 96vw);
   aspect-ratio: 1;
-  transform: translate(-50%, 50%);
+  transform: translate(-50%, calc(50% + 45px));
   z-index: 1;
   pointer-events: none;
 }
